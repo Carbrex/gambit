@@ -18,6 +18,7 @@ const Navbar = () => {
                 <div type="button" class={`nav-links ${showLinks?'show-links':null}`}>
                     <Link to="/" class="nav-link">home</Link>
                     <Link to="/play" class="nav-link">play</Link>
+                    <Link to="/chess-tv" class="nav-link">ChessTV</Link>
                     <Link to="/about" class="nav-link">about</Link>
                     {/* <Link to="/" class="nav-link">tags</Link> */}
                     {/* <Link to="/" class="nav-link">Home</Link> */}
