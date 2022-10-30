@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 import mode_data from './mode-data'
 
 const Play = () => {
@@ -20,7 +21,10 @@ const Play = () => {
         <h2 id='modes-heading'>Play a game</h2>
         <section className="modes-container">
             <div className="tags-container">
-                <h4>modes</h4>
+                <header className='tags-header'>
+                    <h4>modes</h4>
+                    <hr />
+                </header>
                 <div className="tags-list">
                     <button className='btn' onClick={() => handleClick('all')}>All</button>
                     <button className='btn' onClick={() => handleClick('bullet')}>Bullet</button>
@@ -33,11 +37,21 @@ const Play = () => {
                 {
                     mode.map((item) => {
                         const { id, type, initial, increment } = item;
-                        return <button key={id} className="btn single-mode">
+                        // return <button key={id} className="btn single-mode">
+                        //     {/* <Link key={id} className="" to={`/play/t=${initial}&i=${increment}`}> */}
+                        //     <h3>{`${initial}+${increment}`}</h3>
+                        //     <p>{type}</p>
+                        //     {/* </Link> */}
+                        // </button>
+
+                        return <Link key={id} className="btn single-mode" to={`/play/t=${initial}&i=${increment}`}>
+                            {/* <button key={id} className="btn single-mode"> */}
                             <h3>{`${initial}+${increment}`}</h3>
                             <p>{type}</p>
-                        </button>
+                            {/* </button> */}
+                        </Link>
                     })
+                    // btn single-mode
                 }
             </div>
         </section>

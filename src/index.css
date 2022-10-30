@@ -1,10 +1,6 @@
 *,
 ::after,
 ::before {
-    box-sizing: border-box;
-}
-
-* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -91,6 +87,7 @@ html {
 
 body {
     background: var(--backgroundColor);
+    /* background: var(--backgroundColor-dark); */
     font-family: var(--bodyFont);
     font-weight: 400;
     line-height: 1.75;
@@ -136,10 +133,19 @@ h4 {
 h5 {
     font-size: 1.25rem;
 }
+a{
+    color: #fffffe;
+}
 
 small,
 .text-small {
     font-size: var(--smallText);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--textColor);
+    margin-bottom: 2vh;
 }
 
 a {
@@ -161,6 +167,7 @@ ul {
 
 .btn {
     cursor: pointer;
+    text-align: center;
     /* color: var(--white); */
     /* color: var(--grey-700); */
     color: #fffffe;
@@ -466,8 +473,6 @@ Hero
 }
 
 .hero-text hr {
-    /* border: none; */
-    border-top: 1px solid var(--textColor);
     margin-bottom: 5vh;
 }
 
@@ -479,7 +484,7 @@ Hero
     border-radius: var(--borderRadius);
     /* background: #323238; */
     /* background: rgba(0, 0, 0, 0.45); */
-    background: var(--backgroundColor-dark);
+    /* background: var(--backgroundColor-dark); */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -506,6 +511,8 @@ Hero
     /* margin-left: 3rem; */
     text-align: center;
     font-weight: 600;
+    margin-top: 1vh;
+    margin-bottom: 4vh;
 }
 
 .modes-container {
@@ -521,6 +528,11 @@ Hero
     padding-bottom: 0rem;
 }
 
+/* .tags-header {
+    display: grid;
+    justify-content: center;
+
+} */
 .tags-container h4 {
     text-align: center;
     margin-bottom: 1rem;
@@ -556,8 +568,9 @@ Hero
 .single-mode {
     display: grid;
     align-items: center;
+    font-size: 13.3333px;
     justify-content: center;
-    padding-top: 0.5rem;
+    /* padding-top: 0.5rem; */
     background-color: #0f172a00;
     border: 1px solid #444;
     border-radius: var(--borderRadius);
