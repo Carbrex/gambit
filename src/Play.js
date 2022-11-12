@@ -33,7 +33,7 @@ const Play = () => {
                     <button className='btn' onClick={() => handleClick('classical')}>Classical</button>
                 </div>
             </div>
-            <div class="modes-list">
+            <div className="modes-list">
                 {
                     mode.map((item) => {
                         const { id, type, initial, increment } = item;
