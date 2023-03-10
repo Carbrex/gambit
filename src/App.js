@@ -5,6 +5,9 @@ import './App.css';
 import ChessTV from './ChessTV';
 import Error from './Error';
 import Game from './Game';
+import Game2 from './Game2';
+import Game3 from './Game3';
+import Game4 from './Game4';
 import Home from './Home';
 import Navbar from './Navbar';
 import Play from './Play';
@@ -20,7 +23,10 @@ function App() {
               <Home />
             </Route>
             <Route path="/play/:id">
-              <Game />
+              {/* <Game /> */}
+              {/* <Game2/> */}
+              <Game3/>
+              {/* <Game4/> */}
             </Route>
             <Route path="/play">
               <Play />
