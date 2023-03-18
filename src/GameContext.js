@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react'
 const GameContext = React.createContext();
 const GameContextProvider = ({children}) => {
     // Initialize state using the useState hook
-    const [color, setColor] = useState(null)
+    const [color, setColor] = useState(null);
     const [game, setGame] = useState(new Chess()); // Chess.js game instance
     const [selectedSquare, setSelectedSquare] = useState(''); // The currently selected square
     const [possibleMoves, setPossibleMoves] = useState([]); // The squares that can be moved to from the selected square
@@ -12,6 +12,7 @@ const GameContextProvider = ({children}) => {
     const [checkStyle, setCheckStyle] = useState({}); // Styling for the king that is in check
     const [prevMoveStyle, setPrevMoveStyle] = useState({}); // Styling for the previous move
     const [history, setHistory] = useState([]); // Array of previous game positions
+    const [webSocket, setWebSocket] = useState(null)
     // Function that gets called when a square is clicked
     function onSquareClick(square) {
         if (selectedSquare !== '') {
@@ -72,12 +73,12 @@ const GameContextProvider = ({children}) => {
         
         let pieceColor = game.get(sourceSquare).color;
         if(!pieceColor){
-            return;
+            return false;
         }
         pieceColor = pieceColor==='b'?'black':'white'
         if (!color||color!==pieceColor) {
             console.log('oops');
-            return;
+            return false;
         }
         // Create a copy of the game object to manipulate
         const gameCopy = new Chess(game.fen());
@@ -113,6 +114,9 @@ const GameContextProvider = ({children}) => {
             gameCopy.move({ from: move.from, to: move.to, promotion: promotionPiece, noMove: true });
             setGame(gameCopy); // Update game state with new position after promotion
         }
+
+        const lastMove = game.history({ verbose: true }).pop();
+        webSocket.send(JSON.stringify({type:'move',payload:lastMove}));
         setGame(gameCopy);
         setHistory(newHistory);
         return true;
@@ -170,7 +174,7 @@ const GameContextProvider = ({children}) => {
         }
     }
     return (
-        <GameContext.Provider value={{game,onSquareClick,onSquareRightClick,onDrop,squareStyles,checkStyle,prevMoveStyle,handleReset,handleUndo,updateCheckStyle,color,setColor}}>
+        <GameContext.Provider value={{game,onSquareClick,onSquareRightClick,onDrop,squareStyles,checkStyle,prevMoveStyle,handleReset,handleUndo,updateCheckStyle,color,setColor,webSocket,setWebSocket}}>
             {children}
         </GameContext.Provider>
     );

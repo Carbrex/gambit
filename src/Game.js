@@ -21,7 +21,10 @@ const Game = () => {
         handleUndo,
         updateCheckStyle,
         color,
-        setColor
+        setColor,
+        webSocket,
+        setWebSocket,
+        makeMove
     } = useContext(GameContext);
 
     // Define styles for the chessboard
@@ -53,12 +56,41 @@ const Game = () => {
         assignColor(token);
         console.log(color);
         const ws = new WebSocket(`ws://localhost:5000/game/${gameID}?token=${token}`);
-
+        setWebSocket(ws);
         ws.addEventListener('open', () => {
             console.log('WebSocket connection established.');
         });
 
         ws.addEventListener('message', (event) => {
+            const message = JSON.parse(event.data);
+            switch (message.type) {
+                case 'move':
+                    // Handle move message
+                    const { from, to } = message.payload;
+                    const newHistory = [...history, game];
+                    setSelectedSquare('');
+                    setPossibleMoves([]);
+                    setSquareStyles({});
+                    setCheckStyle({});
+                    const updateprevStyle = {};
+                    updateprevStyle[from] = {
+                        backgroundColor: 'rgba(172, 255, 47, 0.4)',
+                    }
+                    updateprevStyle[to] = {
+                        backgroundColor: 'rgba(172, 255, 47, 0.55)',
+                    }
+                    setPrevMoveStyle(updateprevStyle);
+                    setGame(message.gameState);
+                    setHistory(newHistory);
+                    break;
+                //   case 'chat':
+                //     // Handle chat message
+                //     const { username, text } = message.payload;
+                //     displayChatMessage(username, text);
+                //     break;
+                default:
+                    console.log(`Unknown message type: ${message.type}`);
+            }
             console.log(`Received message: ${event.data}`);
         });
 
