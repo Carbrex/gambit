@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { useParams } from 'react-router-dom'
-import { logDOM } from '@testing-library/react';
+// import { logDOM } from '@testing-library/react';
 
 const Game = () => {
   const [game, setGame] = useState(new Chess());
