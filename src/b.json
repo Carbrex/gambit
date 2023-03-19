@@ -1,0 +1,30 @@
+{
+    "type": "move",
+    "payload": {
+        "color": "w",
+        "piece": "p",
+        "from": "e2",
+        "to": "e4",
+        "san": "e4",
+        "flags": "b",
+        "lan": "e2e4"
+    },
+    "gameState": {
+        "_id": "64161d60285ffc2bb4807fad",
+        "status": "ongoing",
+        "players": [
+            {
+                "_id": "64161d60285ffc2bb4807fb6",
+                "playerID": "64137402282d458dffcd06a0",
+                "color": "white"
+            },
+            {
+                "_id": "64161d64285ffc2bb4807fbf",
+                "playerID": "641350c4f8b6fd54b34d8e53",
+                "color": "black"
+            }
+        ],
+        "gameStatefen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+        "__v": 0
+    }
+}

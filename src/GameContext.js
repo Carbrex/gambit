@@ -2,7 +2,7 @@ import { Chess } from 'chess.js';
 import React, { useContext, useState } from 'react'
 
 const GameContext = React.createContext();
-const GameContextProvider = ({children}) => {
+const GameContextProvider = ({ children }) => {
     // Initialize state using the useState hook
     const [color, setColor] = useState(null);
     const [game, setGame] = useState(new Chess()); // Chess.js game instance
@@ -28,16 +28,16 @@ const GameContextProvider = ({children}) => {
             return;
         }
         let pieceColor = game.get(square).color;
-        if(!pieceColor){
+        if (!pieceColor) {
             return;
         }
-        pieceColor = pieceColor==='b'?'black':'white'
-        if (!color||color!==pieceColor) {
+        pieceColor = pieceColor === 'b' ? 'black' : 'white'
+        if (!color || color !== pieceColor) {
             return;
         }
         // If there is no selected square, get the moves for the clicked square
         const moves = game.moves({ square: square, verbose: true });
-        
+
         // Highlight possible moves
         const squaresToHighlight = moves.map((move) => {
             return move.to;
@@ -48,35 +48,35 @@ const GameContextProvider = ({children}) => {
         squaresToHighlight.forEach((sq) => {
             updatedSquareStyles[sq] = {
                 background:
-                game.get(sq) && game.get(square).color !== game.get(sq).color
-                ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
-                : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
+                    game.get(sq) && game.get(square).color !== game.get(sq).color
+                        ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
+                        : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
                 borderRadius: '50%',
             };
         });
-        
+
         // Set the selected square and possible moves
         setSelectedSquare(square);
         setPossibleMoves(squaresToHighlight);
         setSquareStyles(updatedSquareStyles);
     }
-    
+
     // Function that gets called when a square is right-clicked
     function onSquareRightClick(square) {
         setSelectedSquare('');
         setPossibleMoves([]);
         setSquareStyles({});
     }
-    
+
     // Function that gets called when a piece is dropped on the board
     function onDrop(sourceSquare, targetSquare) {
-        
+
         let pieceColor = game.get(sourceSquare).color;
-        if(!pieceColor){
+        if (!pieceColor) {
             return false;
         }
-        pieceColor = pieceColor==='b'?'black':'white'
-        if (!color||color!==pieceColor) {
+        pieceColor = pieceColor === 'b' ? 'black' : 'white'
+        if (!color || color !== pieceColor) {
             console.log('oops');
             return false;
         }
@@ -115,8 +115,9 @@ const GameContextProvider = ({children}) => {
             setGame(gameCopy); // Update game state with new position after promotion
         }
 
-        const lastMove = game.history({ verbose: true }).pop();
-        webSocket.send(JSON.stringify({type:'move',payload:lastMove}));
+        const lastMove = gameCopy.history({ verbose: true }).pop();
+        console.log(lastMove);
+        webSocket.send(JSON.stringify({ type: 'move', payload: lastMove }));
         setGame(gameCopy);
         setHistory(newHistory);
         return true;
@@ -174,9 +175,9 @@ const GameContextProvider = ({children}) => {
         }
     }
     return (
-        <GameContext.Provider value={{game,onSquareClick,onSquareRightClick,onDrop,squareStyles,checkStyle,prevMoveStyle,handleReset,handleUndo,updateCheckStyle,color,setColor,webSocket,setWebSocket}}>
+        <GameContext.Provider value={{ game, onSquareClick, onSquareRightClick, onDrop, squareStyles, checkStyle, prevMoveStyle, setSelectedSquare, setPossibleMoves, setSquareStyles, setCheckStyle, setPrevMoveStyle, setGame, setHistory, handleReset, handleUndo, updateCheckStyle, color, setColor, webSocket, setWebSocket, history }}>
             {children}
         </GameContext.Provider>
     );
 }
-export {GameContext, GameContextProvider};
+export { GameContext, GameContextProvider };

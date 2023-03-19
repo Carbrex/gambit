@@ -1,3 +1,4 @@
+import { Chess } from 'chess.js';
 import React, { useContext, useEffect, useState } from 'react';
 // import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
@@ -8,7 +9,9 @@ import { GameContext } from './GameContext';
 const URL = 'http://localhost:5000/game'; // or 'https://localhost:5000/game' if using HTTPS
 const Game = () => {
     const { id: gameID } = useParams();
-    const history = useHistory();
+    const [gameUpdated, setGameUpdated] = useState(false);
+    const [gameReady, setGameReady] = useState(false);
+    const hist = useHistory();
     const {
         game,
         onSquareClick,
@@ -24,7 +27,14 @@ const Game = () => {
         setColor,
         webSocket,
         setWebSocket,
-        makeMove
+        setSelectedSquare,
+        setPossibleMoves,
+        setSquareStyles,
+        setCheckStyle,
+        setPrevMoveStyle,
+        setGame,
+        history,
+        setHistory
     } = useContext(GameContext);
 
     // Define styles for the chessboard
@@ -46,15 +56,37 @@ const Game = () => {
         if (playerDetails.type === "player") {
             setColor(playerDetails.player.color);
         }
+        return new Chess(playerDetails.fen);
     }
+
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     console.log(token);
+    //     if (!token) {
+    //         hist.replace('/login');
+    //     }
+    //     assignColor(token).then((newChess) => {
+    //         setGame(newChess);
+    //         setGameUpdated(true);
+    //     });
+    // }, [])
+    // const sendJoinedMessage = () => {
+    //     webSocket.send(JSON.stringify({ type: 'joined'}));
+    // };
     useEffect(() => {
         const token = localStorage.getItem('token');
         console.log(token);
         if (!token) {
-            history.replace('/login');
+            hist.replace('/login');
         }
-        assignColor(token);
         console.log(color);
+        assignColor(token).then((newChess) => {
+            setGame(newChess);
+            setGameUpdated(true);
+        });
+        // assignColor(token).then((newChess) => {
+        //     setGame(newChess);
+        // });
         const ws = new WebSocket(`ws://localhost:5000/game/${gameID}?token=${token}`);
         setWebSocket(ws);
         ws.addEventListener('open', () => {
@@ -63,8 +95,10 @@ const Game = () => {
 
         ws.addEventListener('message', (event) => {
             const message = JSON.parse(event.data);
+            console.log(message);
             switch (message.type) {
                 case 'move':
+                    console.log('yes');
                     // Handle move message
                     const { from, to } = message.payload;
                     const newHistory = [...history, game];
@@ -80,8 +114,16 @@ const Game = () => {
                         backgroundColor: 'rgba(172, 255, 47, 0.55)',
                     }
                     setPrevMoveStyle(updateprevStyle);
-                    setGame(message.gameState);
+                    console.log(message);
+                    const chess = new Chess(message.gameState.gameStatefen);
+                    setGame(chess);
                     setHistory(newHistory);
+                    break;
+                case 'joined':
+                    if (message.gameStatus === 'ongoing') {
+                        console.log('hi');
+                        setGameReady(true);
+                    }
                     break;
                 //   case 'chat':
                 //     // Handle chat message
@@ -97,8 +139,6 @@ const Game = () => {
         ws.addEventListener('close', () => {
             console.log('WebSocket connection closed.');
         });
-
-        // ws.send('Hello, server!');
         return () => {
             // ws.removeEventListener('open');
             // ws.removeEventListener('message');
@@ -118,8 +158,10 @@ const Game = () => {
             maxWidth: '70vh',
             width: '70vw'
         }}>
-            {color}
-            <Chessboard
+            {color}<br />
+            {game.fen()}
+            {!gameReady && <h2>waiting for other player to join</h2>}
+            {gameUpdated &&gameReady&& <Chessboard
                 position={game.fen()}
                 onSquareClick={onSquareClick}
                 onSquareRightClick={onSquareRightClick}
@@ -131,7 +173,7 @@ const Game = () => {
                     ...checkStyle,
                     ...prevMoveStyle
                 }}
-            />
+            />}
             <button onClick={handleReset}>reset</button>
             <button onClick={handleUndo}>undo</button>
         </div>
