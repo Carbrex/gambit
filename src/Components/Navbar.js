@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import image from "./Gambit.png";
+import image from "../images/Gambit.png";
 
 const Navbar = () => {
     const [showLinks, setShowLinks] = React.useState(false);
@@ -20,10 +20,8 @@ const Navbar = () => {
                     <Link to="/play" className="nav-link">play</Link>
                     <Link to="/chess-tv" className="nav-link">ChessTV</Link>
                     <Link to="/about" className="nav-link">about</Link>
-                    {/* <Link to="/" className="nav-link">tags</Link> */}
-                    {/* <Link to="/" className="nav-link">Home</Link> */}
                     <div className="nav-link contact-link">
-                        <Link to="/" className="btn">Contact</Link>
+                        <Link to="/login" className="btn">Login</Link>
                     </div>
                 </div>
             </div>

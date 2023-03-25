@@ -1,11 +1,9 @@
 import React from 'react'
-import ChessTV from './ChessTV';
-import Hero from './Hero';
+import ChessTV from '../Components/ChessTV';
 import Play from './Play';
 
 const Home = () => {
   return (<>
-    <Hero />
     <Play />
     <ChessTV />
   </>

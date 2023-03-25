@@ -1,21 +1,16 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import About from './About';
+import About from './Pages/About';
 
-import './App.css';
-import ChessTV from './ChessTV';
-import Error from './Error';
-import Game from './Game';
-import Chat from './Chat';
-import Game2 from './Game2';
-import Game3 from './Game3';
-import Game4 from './Game4';
-import Home from './Home';
-import Navbar from './Navbar';
-import Play from './Play';
-import StartGame from './StartGame';
-import { GameContextProvider } from './GameContext';
-import Login from './Login';
-import PrivateRoute from './PrivateRoute';
+import ChessTV from './Components/ChessTV';
+import Error from './Components/Error';
+import Game from './Pages/Game';
+import Home from './Pages/Home';
+import Navbar from './Components/Navbar';
+import Play from './Pages/Play';
+import { GameContextProvider } from './Components/GameContext';
+import Login from './Pages/Login';
+import PrivateRoute from './Components/PrivateRoute';
+import Hero from './Components/Hero';
 
 function App() {
   return (
@@ -23,29 +18,21 @@ function App() {
       <Router>
         <Navbar />
         <main className="page">
+          <Hero />
           <Switch>
             <Route exact path="/">
               <Home />
             </Route>
-            <Route path="/chat/:id">
-              <Chat />
-            </Route>
-            <PrivateRoute path="/game">
-              <StartGame />
-            </PrivateRoute>
             <PrivateRoute path="/play/:id">
               <GameContextProvider>
                 <Game />
-                {/* <Game2/> */}
-                {/* <Game3 /> */}
-                {/* <Game4/> */}
               </GameContextProvider>
             </PrivateRoute>
-            <Route path="/play">
+            <PrivateRoute path="/play">
               <Play />
-            </Route>
+            </PrivateRoute>
             <Route path="/login">
-              <Login/>
+              <Login />
             </Route>
             <Route path="/chess-tv">
               <ChessTV />

@@ -133,7 +133,8 @@ h4 {
 h5 {
     font-size: 1.25rem;
 }
-a{
+
+a {
     color: #fffffe;
 }
 
@@ -315,8 +316,9 @@ Navbar
     justify-content: center;
     align-items: center;
     background: var(--backgroundColor-dark);
-    position: sticky;
-    top: 0;
+    /* position: sticky; */
+    /* top: 0; */
+    /* z-index: 100; */
 }
 
 .nav-center {
@@ -517,44 +519,8 @@ Hero
 
 .modes-container {
     display: grid;
-    gap: 1rem 1rem;
-    /* grid-template-columns: 200px 1fr; */
-}
-
-.tags-container {
-    /* order: 1; */
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 0rem;
-}
-
-/* .tags-header {
-    display: grid;
-    justify-content: center;
-
-} */
-.tags-container h4 {
-    text-align: center;
-    margin-bottom: 1rem;
-    font-weight: 500;
-}
-
-.tags-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.tags-list button {
-    text-transform: capitalize;
-    display: block;
-    background-color: rgba(0, 0, 0, 0);
-    color: var(--grey-400);
-    transition: var(--transition);
-}
-
-.tags-list button:hover {
-    color: #ffe;
-    background-color: #0ea5e9;
+    /* gap: 1rem 1rem; */
+    grid-template-columns: 1fr 1fr;
 }
 
 .modes-list {
@@ -575,6 +541,7 @@ Hero
     border: 1px solid #444;
     border-radius: var(--borderRadius);
     padding: 0.375rem;
+    /* max-width: 500px; */
     /* display: block; */
 }
 
@@ -582,13 +549,24 @@ Hero
 p {
     margin-bottom: 0.5rem;
 }
+
 .single-mode h3 {
     font-size: 1.38rem;
 }
 
+@media screen and (max-width:900px) {
+    .modes-container {
+        grid-template-columns: auto;
+    }
+
+    .modes-list {
+        grid-template-columns: none;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+}
 
 @media screen and (min-width: 576px) {
-    .single-mode{
+    .single-mode {
         padding: 0.375rem 0.75rem;
     }
 
@@ -601,22 +579,6 @@ p {
 
     .modes-container {
         grid-template-columns: 1.5fr 3fr;
-    }
-    .tags-container {
-        order: 0;
-    }
-    .tags-list {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media screen and (min-width: 1200px) {
-    .recipes-list {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .recipe h5 {
-        font-size: 1.15rem;
     }
 }
 
@@ -638,4 +600,137 @@ p {
     height: 84vw !important;
     margin: 0 !important;
     max-width: 400px !important;
+}
+
+.black {
+    transform: rotate(180deg);
+}
+
+.message-container {
+    max-width: 600px;
+    width: 70vw;
+    margin-top: 2rem;
+    /* max-width: 30vh;
+    width: 30vw; */
+}
+
+.messages {
+    height: 300px;
+    overflow-y: scroll;
+    margin-top: 20px;
+    border: 2px solid rgb(78, 77, 77);
+    padding: 5px;
+    padding-top: 0px;
+    background-color: #333;
+}
+
+.messages h4 {
+    margin: 0;
+    position: sticky;
+    background-color: #333;
+    top: 0;
+}
+
+.chat-box {
+    /* height: 300px; */
+    color: #fff;
+    /* border: 1px solid #000; */
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.chat-list {
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.chat-box .darker {
+    background-color: #393939;
+}
+
+.chat-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-list li {
+    margin-bottom: 5px;
+}
+
+.chat-list li:last-child {
+    margin-bottom: 0;
+}
+
+.chat-list li:before {
+    content: "> ";
+}
+
+.send-msg {
+    display: grid;
+    grid-template-columns: 10fr 1fr;
+    column-gap: 3px;
+}
+
+.send-msg input {
+    color: #fff;
+}
+
+.chessboard {
+    margin: 0 auto;
+    width: 30vw;
+    min-width: 220px;
+    max-width: 35vh;
+}
+
+.chess {
+    margin: 3rem auto;
+    margin-bottom: 0;
+    max-width: 600px;
+    width: 70vw;
+    grid-area: chess;
+}
+
+.chatbox {
+    grid-area: chatbox;
+    /* margin: auto; */
+    display: flex;
+    flex-direction: column;
+    /* max-width: 70vh;
+    width: 70vw; */
+}
+
+.game-comp {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "chess"
+        "chatbox";
+}
+
+.game-comp>footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 0;
+}
+
+@media (min-width: 1200px) {
+    .message-container {
+        width: 30vw;
+        max-width: 500px;
+    }
+
+    .game-comp {
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr;
+        grid-template-areas:
+            "chatbox chess";
+    }
+}
+.game-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
