@@ -7,7 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import Chat2 from '../Components/Chat';
 import { GameContext } from '../Components/GameContext';
 
-const URL = 'http://localhost:5000/game';
+const URL = '/game';
+
 const Game = () => {
     const { id: gameID } = useParams();
     const location = useLocation();
@@ -65,7 +66,6 @@ const Game = () => {
             setCorrectGameID(false);
             return new Chess();
         }
-        console.log(playerDetails);
         if (playerDetails.type === "player") {
             setColor(playerDetails.player.color);
         }
@@ -81,19 +81,16 @@ const Game = () => {
         setMsg('');
         webSocket.send(JSON.stringify({ type: 'chat', payload: msg }));
     }
-    console.log(playerNames);
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log(token);
         if (!token) {
             hist.replace('/login');
         }
-        console.log(color);
         assignColor(token).then((newChess) => {
             setGame(newChess);
             setGameUpdated(true);
         });
-        const ws = new WebSocket(`ws://localhost:5000/game/${gameID}?token=${token}`);
+        const ws = new WebSocket(`ws://${window.location.host}/game/${gameID}?token=${token}`);
         setWebSocket(ws);
         ws.addEventListener('open', () => {
             console.log('WebSocket connection established.');
@@ -102,11 +99,8 @@ const Game = () => {
 
         ws.addEventListener('message', (event) => {
             const message = JSON.parse(event.data);
-            console.log(message);
-            console.log("chat", chat);
             switch (message.type) {
                 case 'move':
-                    console.log('yes');
                     // Handle move message
                     const { from, to } = message.payload;
                     const newHistory = [...history, game];
@@ -122,7 +116,6 @@ const Game = () => {
                         backgroundColor: 'rgba(172, 255, 47, 0.55)',
                     }
                     setPrevMoveStyle(updateprevStyle);
-                    console.log(message);
                     const chess = new Chess(message.gameStatefen);
                     setGame(chess);
                     setHistory(newHistory);
@@ -130,6 +123,7 @@ const Game = () => {
                 case 'joined':
                     if (message.gameStatus === 'ongoing') {
                         setGameReady(true);
+                        console.log('someone joined');
                         let players = {};
                         const arr = [...message.players];
                         arr.forEach(element => {
@@ -144,7 +138,6 @@ const Game = () => {
                     }
                     break;
                 case 'chat':
-                    console.log(chat);
                     setChat((prevChat) => [...prevChat, message.payload]);
                     break;
                 default:
@@ -152,8 +145,8 @@ const Game = () => {
             }
         });
         ws.addEventListener('close', () => {
+            console.log('Connection failed');
             toast.error('Connection failed');
-            console.log('WebSocket connection closed.');
         });
         return () => {
             // ws.removeEventListener('open');
@@ -164,8 +157,14 @@ const Game = () => {
 
     // Define effect to update checkStyle when game is in check
     useEffect(() => {
+        if (game && color &&!game.isGameOver()) {
+            if (((game.turn() === 'w') ? 'white' : 'black') === color) {
+                toast('Your turn');
+            }
+        }
         updateCheckStyle();
         if (game.isGameOver()) {
+            setGameReady(true);
             let st;
             if (game.isCheckmate()) {
                 const winner = game.turn() === 'w' ? 'Black' : 'White';
@@ -184,8 +183,8 @@ const Game = () => {
                 st = 'The game is drawn by fifty-move rule!';
             }
             setStatus(st);
-            toast.info(st,{
-                autoClose:5000
+            toast.info(st, {
+                autoClose: 5000
             });
         }
     }, [game])
@@ -217,7 +216,9 @@ const Game = () => {
                 correctGameID && gameUpdated && gameReady &&
                 <>
                     <div className='game-details'>
-                        {((game.turn() === 'w') ? 'white' : 'black') === color && toast('Your turn') && <h2>Its your turn to play</h2>}
+                        {color && <h2>You play as {color}</h2>}
+                        {!color && <h2>You are spectating</h2>}
+                        {!game.isGameOver()&&((game.turn() === 'w') ? 'white' : 'black') === color && <h2>Its your turn to play</h2>}
                         {status && <h2>{status}</h2>}
                     </div>
                     <section className='game-comp'>

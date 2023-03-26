@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import image from "../images/Gambit.png";
+import image from "../Images/Gambit.png";
 
 const Navbar = () => {
     const [showLinks, setShowLinks] = React.useState(false);

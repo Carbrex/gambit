@@ -582,6 +582,54 @@ p {
     }
 }
 
+/* 
+====== 
+About Page
+======
+*/
+.about {
+    /* max-width: 50vw; */
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+}
+.about img {
+    border-radius: 8px;
+    width: 300px;
+    margin-bottom: 40px;
+}
+.about p {
+    max-width: 600px;
+}
+.about a{
+    text-decoration: underline;
+    color: #7d89fb;
+}
+@media screen and (max-width: 500px) {
+    .about img {
+        width: 60vw;
+    }
+}
+/* 
+====== 
+Error
+======
+*/
+.error-page {
+    display: flex;
+    justify-content: center;
+}
+
+.error-container {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+
 .chess-tv {
     display: grid;
     gap: 2rem;
@@ -728,6 +776,7 @@ p {
             "chatbox chess";
     }
 }
+
 .game-details {
     display: flex;
     justify-content: center;

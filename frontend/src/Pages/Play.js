@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Chessboard } from 'react-chessboard';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-const url = 'http://localhost:5000/game'; // or 'https://localhost:5000/game' if using HTTPS
+const url = '/game';
 
 const Play = () => {
     const [gameID, setGameID] = useState(null);
@@ -21,11 +21,8 @@ const Play = () => {
             },
             body: JSON.stringify({ color }),
         });
-        // const resjson = await response.json();
-        // console.log(resjson);
         if (response.ok) {
             const resjson = await response.json();
-            console.log(resjson);
             const { status, gameID: id } = resjson;
             setGameID(id);
         }
@@ -37,7 +34,6 @@ const Play = () => {
         }
     }, [])
     useEffect(() => {
-        console.log(history);
         if (gameID) {
             history.push(`/play/${gameID}`);
         }

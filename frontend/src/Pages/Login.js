@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-// import { Logo, FormRow } from '../components';
-// import Wrapper from '../assets/wrappers/RegisterPage';//css
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { loginUser, registerUser } from '../features/user/userSlice';
-// import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   name: '',
@@ -15,17 +10,14 @@ const initialState = {
   isMember: true,
 };
 
-const URL = 'http://localhost:5000/api/v1/auth'; // or 'https://localhost:5000/game' if using HTTPS
+const URL = '/api/v1/auth';
 
 function Login() {
   const [values, setValues] = useState(initialState);
   const [user, setUser] = useState(null);
   const history = useHistory();
   const location = useLocation();
-  // const { user, isLoading } = useSelector((store) => store.user);
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-
+  
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -46,7 +38,6 @@ function Login() {
         body: JSON.stringify(userData),
       });
       const data = await response.json();
-      console.log('registered', data);
       return data;
     }
     if (name.length<2) {
@@ -58,15 +49,12 @@ function Login() {
       return;
     }
     const userData = { name, email, password };
-    console.log(userData);
     const response = await fetch(`${URL}/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
     });
-    console.log(response);
     const data = await response.json();
-    console.log('logged in', data);
     return data;
     // handle the response data
   };
@@ -79,16 +67,13 @@ function Login() {
       return;
     }
     const data = await handleRegister();
-    console.log(data);
     if (data.msg) {
       toast.error(data.msg);
     }
     if (data.token) {
-      console.log('here');
       // After receiving the token from the server, store it in localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.user.name);
-      console.log(data);
       // Redirect the user back to the previous page
       history.replace(location.state?.from || '/');
     }
@@ -171,7 +156,6 @@ function Login() {
             </div>
             <button type='submit' className='btn btn-block' >
               submit
-              {/* {isLoading ? 'loading...' : 'submit'} */}
             </button>
             <p>
               {values.isMember ? 'Not a member yet?' : 'Already a member?'}

@@ -77,7 +77,6 @@ const GameContextProvider = ({ children }) => {
         }
         pieceColor = pieceColor === 'b' ? 'black' : 'white'
         if (!color || color !== pieceColor) {
-            console.log('oops');
             return false;
         }
         // Create a copy of the game object to manipulate
@@ -116,7 +115,6 @@ const GameContextProvider = ({ children }) => {
         }
 
         const lastMove = gameCopy.history({ verbose: true }).pop();
-        console.log(lastMove);
         webSocket.send(JSON.stringify({ type: 'move', payload: lastMove }));
         setGame(gameCopy);
         setHistory(newHistory);
@@ -124,7 +122,6 @@ const GameContextProvider = ({ children }) => {
     }
     // Define function to handle undo
     function handleUndo() {
-        console.log(history);
         if (history.length === 0) {
             return;
         }
@@ -156,15 +153,12 @@ const GameContextProvider = ({ children }) => {
                 }
             }
         }
-        // King not found (should not happen in a legal game)
         return null;
     }
 
     const updateCheckStyle = () => {
         if (game.inCheck()) {
-            console.log('oops');
             const pos = getCurrentPlayerKingPosition();
-            console.log('pos', pos);
             if (pos) {
                 const styleObj = {};
                 styleObj[pos] = {
