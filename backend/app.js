@@ -16,15 +16,15 @@ const path = require('path');
 const app = express();
 const authenticateUser = require('./middleware/authentication');
 
-app.set('trust proxy',1);
+app.set('trust proxy', 1);
 // middleware
 app.use(rateLimiter({
-  windowMs: 15*60*1000,//15 minutes
-  max: 500
+    windowMs: 15 * 60 * 1000,//15 minutes
+    max: 500
 }));
 app.use(express.json());
 // extra packages
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false, }));
 app.use(cors());
 app.use(xss());
 
