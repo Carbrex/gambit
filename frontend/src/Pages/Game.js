@@ -206,7 +206,7 @@ const Game = () => {
             {!correctGameID && <h2>404 - Game not found</h2>}
             {
                 correctGameID && !gameReady && <><h2>waiting for other player to join</h2>
-                    <p>Send this link to your friend to start the game <br />Click to copy<br /><span onClick={() => {
+                    <p>Send this link to your friend to start the game <br />Click to copy<br /><span className='game-link' onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
                         toast('Link copied to clipboard');
                     }}>{window.location.href}</span></p>
