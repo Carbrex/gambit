@@ -641,7 +641,7 @@ Error
 
 .chess-tv h2 {
     font-weight: 600;
-
+    
 }
 
 #featured-game {
@@ -651,9 +651,11 @@ Error
     max-width: 400px !important;
 }
 
-.black {
-    transform: rotate(180deg);
-}
+/* 
+====== 
+Game Page
+======
+*/
 
 .message-container {
     max-width: 600px;
@@ -679,7 +681,9 @@ Error
     background-color: #333;
     top: 0;
 }
-
+.game-link {
+  overflow-wrap: break-word;
+}
 .chat-box {
     /* height: 300px; */
     color: #fff;
