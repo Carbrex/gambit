@@ -1,4 +1,3 @@
-const forceSSL=require('@dylan/forcessl');
 require('dotenv').config();
 const { StatusCodes } = require('http-status-codes');
 require('express-async-errors');
@@ -16,13 +15,6 @@ const path = require('path');
 
 const app = express();
 const authenticateUser = require('./middleware/authentication');
-
-app.set('forceSSLOptions', {
-    enable301Redirects: false,
-    trustXFPHeader: true
-});
-
-app.use(forceSSL);
 
 app.set('trust proxy', 1);
 // middleware
