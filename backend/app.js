@@ -1,8 +1,7 @@
+const forceSSL=require('@dylan/forcessl');
 require('dotenv').config();
 const { StatusCodes } = require('http-status-codes');
 require('express-async-errors');
-const https = require('https');
-const fs = require('fs');
 
 // extra security
 const helmet = require('helmet');
@@ -17,6 +16,13 @@ const path = require('path');
 
 const app = express();
 const authenticateUser = require('./middleware/authentication');
+
+app.set('forceSSLOptions', {
+    enable301Redirects: false,
+    trustXFPHeader: true
+});
+
+app.use(forceSSL);
 
 app.set('trust proxy', 1);
 // middleware
@@ -61,14 +67,9 @@ const port = process.env.PORT || 5000;
 const start = async () => {
     try {
         await connectDB(process.env.MONGO_URI);
-        const options = {
-            key: fs.readFileSync('/etc/render/sslcerts/key.pem'),
-            cert: fs.readFileSync('/etc/render/sslcerts/cert.pem')
-        };
-        const server = https.createServer(options, app);
-        server.listen(port, () => {
+        const server = app.listen(port, () => {
             console.log(`Server is listening on port ${port}...`);
-        });
+        })
         server.on('upgrade', (request, socket, head) => {
             wss.handleUpgrade(request, socket, head, (socket) => {
                 wss.emit('connection', socket, request);

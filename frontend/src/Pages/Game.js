@@ -90,7 +90,7 @@ const Game = () => {
             setGame(newChess);
             setGameUpdated(true);
         });
-        const ws = new WebSocket(`wss://${window.location.host}/game/${gameID}?token=${token}`);
+        const ws = new WebSocket(`ws://${window.location.host}/game/${gameID}?token=${token}`);
         setWebSocket(ws);
         ws.addEventListener('open', () => {
             console.log('WebSocket connection established.');
