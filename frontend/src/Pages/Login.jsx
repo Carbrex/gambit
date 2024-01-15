@@ -10,7 +10,7 @@ const initialState = {
   isMember: true,
 };
 
-const URL = '/api/v1/auth';
+const URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth`;
 
 function Login() {
   const [values, setValues] = useState(initialState);

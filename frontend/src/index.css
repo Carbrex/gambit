@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400|Montserrat:400');
+
 *,
 ::after,
 ::before {
@@ -8,15 +10,11 @@
 
 /* fonts */
 
-/* @import url('https://api.fonts.coollabs.io/css2?family=Roboto:wght@400;500;600&family=Montserrat&display=swap'); */
-@import url('https://fonts.googleapis.com/css?family=Ubuntu:400|Montserrat:400');
-
 html {
     font-size: 100%;
 }
 
 /*16px*/
-
 :root {
     /* colors */
     --primary-100: #e2e0ff;
@@ -598,23 +596,28 @@ About Page
     align-items: center;
     text-align: justify;
 }
+
 .about img {
     border-radius: 8px;
     width: 300px;
     margin-bottom: 40px;
 }
+
 .about p {
     max-width: 600px;
 }
-.about a{
+
+.about a {
     text-decoration: underline;
     color: #7d89fb;
 }
+
 @media screen and (max-width: 500px) {
     .about img {
         width: 60vw;
     }
 }
+
 /* 
 ====== 
 Error
@@ -641,7 +644,7 @@ Error
 
 .chess-tv h2 {
     font-weight: 600;
-    
+
 }
 
 #featured-game {
@@ -681,9 +684,23 @@ Game Page
     background-color: #333;
     top: 0;
 }
+
 .game-link {
-  overflow-wrap: break-word;
+    overflow-wrap: break-word;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    cursor: pointer;
+    /* background-color: #111; */
+    padding: 5px;
+    font-size: smaller;
+    text-align: center;
 }
+
+.game-link>img {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
 .chat-box {
     /* height: 300px; */
     color: #fff;

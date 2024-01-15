@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from "react-router-dom";
 import image from "../Images/Gambit.png";
 
 const Navbar = () => {
     const [showLinks, setShowLinks] = React.useState(false);
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
     return (
         <nav className="navbar">
             <div className="nav-center">
@@ -21,7 +23,7 @@ const Navbar = () => {
                     <Link to="/chess-tv" className="nav-link">ChessTV</Link>
                     <Link to="/about" className="nav-link">about</Link>
                     <div className="nav-link contact-link">
-                        <Link to="/login" className="btn">Login</Link>
+                        <Link to="/login" className="btn">{token?username:"Login"}</Link>
                     </div>
                 </div>
             </div>

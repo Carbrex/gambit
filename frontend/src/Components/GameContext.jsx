@@ -115,6 +115,7 @@ const GameContextProvider = ({ children }) => {
         }
 
         const lastMove = gameCopy.history({ verbose: true }).pop();
+        console.log(JSON.stringify({ type: 'move', payload: lastMove }));
         webSocket.send(JSON.stringify({ type: 'move', payload: lastMove }));
         setGame(gameCopy);
         setHistory(newHistory);

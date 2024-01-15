@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Chessboard } from 'react-chessboard';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-const url = '/game';
+// use environment variable to store backend url
+const url = `${import.meta.env.VITE_API_BASE_URL}/game`;
 
 const Play = () => {
+    console.log(url,"url");
     const [gameID, setGameID] = useState(null);
     const location = useLocation();
     const history = useHistory();
