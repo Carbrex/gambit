@@ -1,7 +1,9 @@
 // WebSocket server
 const jwt = require('jsonwebtoken');
+
 // Store active games
 const games = new Map();
+
 // Middleware function for WebSocket connections
 function authenticateWebSocketConnection(ws, req, next) {
     // check header
@@ -96,6 +98,8 @@ wss.on('connection', async (ws, req) => {
                         }
                         else if (msg.type === 'joined') {
                             // Get the game object from the database
+                            // sleep for 2 sec
+                            await new Promise(r => setTimeout(r, 100));
                             const currGame = await Game.findById(gameID);
                             if (!currGame) {
                                 ws.close();
@@ -158,5 +162,8 @@ wss.on('connection', async (ws, req) => {
         ws.send(JSON.stringify({ status: 'failed', msg: err.msg || 'Something went wrong, try again later' }));
         ws.close();
     }
+});
+wss.on('error', (err) => {
+    console.log(err);
 });
 module.exports = { wss };

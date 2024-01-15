@@ -15,6 +15,7 @@ const path = require('path');
 
 const app = express();
 const authenticateUser = require('./middleware/authentication');
+const UserCt = require('./models/UserCt');
 
 app.set('trust proxy', 1);
 // middleware
@@ -28,11 +29,12 @@ app.use(helmet({ contentSecurityPolicy: false, }));
 app.use(cors());
 app.use(xss());
 
-app.use(express.static('./build'));
-app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('../frontend/dist'));
+    app.get('*', function (req, res) {
+        res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+    });
+}
 // connectDB
 const connectDB = require('./db/connect');
 
@@ -44,7 +46,22 @@ const gameRouter = require('./routes/game');
 const Game = require('./models/Game');
 const { createGame, assignPlayer } = require('./controllers/game.js');
 // Express routes
+let userCt=0;
+// log requests and increment user count
+app.use((req, res, next) => {
+    userCt++;
+    // update user count in the database
+    UserCt.findOneAndUpdate({}, { ct: userCt }, { upsert: true }, (err, doc) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+    console.log(`${req.method} ${req.url} ${userCt}`);
+    next();
+})
+
 app.get('/', (req, res) => {
+    userCt++;
     res.status(200).send('Home Page');
 })
 app.use('/game', authenticateUser, gameRouter);
@@ -67,6 +84,11 @@ const start = async () => {
                 wss.emit('connection', socket, request);
             });
         });
+        // initialize user count
+        const userCtDoc = await UserCt.findOne({});
+        if (userCtDoc) {
+            userCt = userCtDoc.ct;
+        }
     } catch (error) {
         console.log(error);
     }
