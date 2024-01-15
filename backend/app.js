@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { StatusCodes } = require('http-status-codes');
 require('express-async-errors');
+const fs = require('fs');
 
 // extra security
 const helmet = require('helmet');
