@@ -30,6 +30,11 @@ app.use(cors());
 app.use(xss());
 
 if (process.env.NODE_ENV === 'production') {
+    //check whether directory exists
+    if (!fs.existsSync('../frontend/dist')) {
+        console.log('Please run "npm run build" in the frontend directory');
+        process.exit(1);
+    }
     app.use(express.static('../frontend/dist'));
     app.get('*', function (req, res) {
         res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
