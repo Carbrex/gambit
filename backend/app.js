@@ -30,6 +30,9 @@ app.use(helmet({ contentSecurityPolicy: false, }));
 app.use(cors());
 app.use(xss());
 
+// ls contents of ../frontend
+console.log(fs.readdirSync('../frontend'));
+
 if (process.env.NODE_ENV === 'production') {
     //check whether directory exists
     if (!fs.existsSync('../frontend/dist')) {
@@ -38,7 +41,7 @@ if (process.env.NODE_ENV === 'production') {
     }
     app.use(express.static('../frontend/dist'));
     app.get('*', function (req, res) {
-        res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+        res.sendFile(path.join(__dirname, './dist', 'index.html'));
     });
 }
 // connectDB
