@@ -3,7 +3,8 @@ import { Chessboard } from 'react-chessboard';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 // use environment variable to store backend url
-const url = `${import.meta.env.VITE_API_BASE_URL}/game`;
+const BASE_URL=import.meta.env.VITE_API_BASE_URL;
+const url = `${BASE_URL?BASE_URL:''}/game`;
 
 const Play = () => {
     console.log(url,"url");
