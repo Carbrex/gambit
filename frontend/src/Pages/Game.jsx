@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Chat2 from '../Components/Chat';
 import { GameContext } from '../Components/GameContext';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const URL = '/game';
 
 const Game = () => {
@@ -90,7 +91,7 @@ const Game = () => {
             setGame(newChess);
             setGameUpdated(true);
         });
-        const ws = new WebSocket(`wss://${window.location.host}/game/${gameID}?token=${token}`);
+        const ws = new WebSocket(`ws${BASE_URL ? '' : 's'}://${window.location.host}/game/${gameID}?token=${token}`);
         setWebSocket(ws);
         ws.addEventListener('open', () => {
             console.log('WebSocket connection established.');
@@ -157,7 +158,7 @@ const Game = () => {
 
     // Define effect to update checkStyle when game is in check
     useEffect(() => {
-        if (game && color &&!game.isGameOver()) {
+        if (game && color && !game.isGameOver()) {
             if (((game.turn() === 'w') ? 'white' : 'black') === color) {
                 toast('Your turn');
             }
@@ -206,10 +207,12 @@ const Game = () => {
             {!correctGameID && <h2>404 - Game not found</h2>}
             {
                 correctGameID && !gameReady && <><h2>waiting for other player to join</h2>
-                    <p>Send this link to your friend to start the game <br />Click to copy<br /><span className='game-link' onClick={() => {
+                    <p>Send this link to your friend to start the game</p>
+                    {/* <br />Click to copy<br /> */}
+                    <span className='game-link' onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
                         toast('Link copied to clipboard');
-                    }}>{window.location.href}</span></p>
+                    }}>{window.location.href}<img src={copy} /></span>
                 </>
             }
             {
@@ -218,7 +221,7 @@ const Game = () => {
                     <div className='game-details'>
                         {color && <h2>You play as {color}</h2>}
                         {!color && <h2>You are spectating</h2>}
-                        {!game.isGameOver()&&((game.turn() === 'w') ? 'white' : 'black') === color && <h2>Its your turn to play</h2>}
+                        {!game.isGameOver() && ((game.turn() === 'w') ? 'white' : 'black') === color && <h2>Its your turn to play</h2>}
                         {status && <h2>{status}</h2>}
                     </div>
                     <section className='game-comp'>
