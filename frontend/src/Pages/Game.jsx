@@ -6,6 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import Chat2 from '../Components/Chat';
 import { GameContext } from '../Components/GameContext';
+import copy from '../Images/copy-text-svgrepo-com.svg';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const URL = '/game';
