@@ -61,7 +61,7 @@ function Login() {
       // After receiving the token from the server, store it in localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.user.name);
-      // Redirect the user back to the previous page with force reload
+      // Redirect the user back to the previous page
       history.replace(location.state?.from || '/');
       window.location.reload();
     }

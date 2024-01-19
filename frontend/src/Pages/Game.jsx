@@ -89,7 +89,7 @@ const Game = () => {
 
   function connectSocket(token) {
     ws = new WebSocket(
-      `ws://${WS_URL ? WS_URL : window.location.host}/${gameID}?token=${token}`
+      `ws${WS_URL?'':'s'}://${WS_URL ? WS_URL : window.location.host}/${gameID}?token=${token}`
     );
     setWebSocket(ws);
 
