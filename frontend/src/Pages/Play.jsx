@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Chessboard } from 'react-chessboard';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-// use environment variable to store backend url
-const BASE_URL=import.meta.env.VITE_API_BASE_URL;
-const url = `${BASE_URL?BASE_URL:''}/game`;
+import { createGame } from '../api';
 
 const Play = () => {
-    console.log(url,"url");
     const [gameID, setGameID] = useState(null);
     const location = useLocation();
     const history = useHistory();
@@ -16,14 +12,7 @@ const Play = () => {
         if (color !== 'white' && color !== 'black') {
             color = null;
         }
-        const response = await fetch(`${url}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ color }),
-        });
+        const response = await createGame(token,color);
         if (response.ok) {
             const resjson = await response.json();
             const { status, gameID: id } = resjson;

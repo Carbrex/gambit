@@ -360,7 +360,7 @@ Navbar
 }
 
 .nav-btn:hover {
-    transform: rotate(90deg);
+    transform: rotate(180deg);
     transition: var(--transition);
 }
 
@@ -685,8 +685,17 @@ Game Page
     top: 0;
 }
 
+.waiting {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    /* height: 300px; */
+}
+
 .game-link {
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     border: 1px solid #ccc;
     border-radius: 2px;
     cursor: pointer;

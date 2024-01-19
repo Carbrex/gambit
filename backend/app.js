@@ -30,9 +30,6 @@ app.use(helmet({ contentSecurityPolicy: false, }));
 app.use(cors());
 app.use(xss());
 
-// ls contents of ../frontend
-console.log(fs.readdirSync('../frontend'));
-
 if (process.env.NODE_ENV === 'production') {
     //check whether directory exists
     if (!fs.existsSync('../frontend/dist')) {
@@ -52,8 +49,6 @@ const { wss } = require('./web-socket/web-socket');
 // routers
 const authRouter = require('./routes/auth');
 const gameRouter = require('./routes/game');
-const Game = require('./models/Game');
-const { createGame, assignPlayer } = require('./controllers/game.js');
 // Express routes
 let userCt=0;
 // log requests and increment user count
@@ -73,7 +68,7 @@ app.get('/', (req, res) => {
     userCt++;
     res.status(200).send('Home Page');
 })
-app.use('/game', authenticateUser, gameRouter);
+app.use('/api/v1/game', authenticateUser, gameRouter);
 app.use('/api/v1/auth', authRouter);
 
 app.all('*', (req, res) => {

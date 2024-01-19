@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { register, login } from '../api';
 
 const initialState = {
   name: '',
@@ -32,14 +33,7 @@ function Login() {
   const handleRegister = async () => {
     const { name, email, password, isMember } = values;
     if (isMember) {
-      const userData = { email, password };
-      const response = await fetch(`${URL}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-      });
-      const data = await response.json();
-      return data;
+      return await login(email,password);
     }
     if (name.length<2) {
       toast.error('Name should have atleast 2 characters');
@@ -49,15 +43,7 @@ function Login() {
       toast.error('Password should have atleast 8 characters and consist of atleast one character, one number and a special character');
       return;
     }
-    const userData = { name, email, password };
-    const response = await fetch(`${URL}/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    });
-    const data = await response.json();
-    return data;
-    // handle the response data
+    return await register(name, email, password);
   };
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -75,8 +61,9 @@ function Login() {
       // After receiving the token from the server, store it in localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.user.name);
-      // Redirect the user back to the previous page
+      // Redirect the user back to the previous page with force reload
       history.replace(location.state?.from || '/');
+      window.location.reload();
     }
   };
 
