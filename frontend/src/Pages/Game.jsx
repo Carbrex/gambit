@@ -9,7 +9,7 @@ import { GameContext } from "../Components/GameContext";
 import copy from "../Images/copy-text-svgrepo-com.svg";
 import { joinGame } from "../api";
 
-const WS_URL = `${import.meta.env.VITE_API_WS_URL}`;
+const WS_URL = `${import.meta.env.VITE_API_WS_URL?import.meta.env.VITE_API_WS_URL:''}`;
 
 let ws;
 let clientSet = false;
