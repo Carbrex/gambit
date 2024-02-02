@@ -9,7 +9,9 @@ import { GameContext } from "../Components/GameContext";
 import copy from "../Images/copy-text-svgrepo-com.svg";
 import { joinGame } from "../api";
 
-const WS_URL = `${import.meta.env.VITE_API_WS_URL?import.meta.env.VITE_API_WS_URL:''}`;
+const WS_URL = `${
+  import.meta.env.VITE_API_WS_URL ? import.meta.env.VITE_API_WS_URL : ""
+}`;
 
 let ws;
 let clientSet = false;
@@ -89,7 +91,9 @@ const Game = () => {
 
   function connectSocket(token) {
     ws = new WebSocket(
-      `ws${WS_URL?'':'s'}://${WS_URL ? WS_URL : window.location.host}/${gameID}?token=${token}`
+      `ws${WS_URL ? "" : "s"}://${
+        WS_URL ? WS_URL : window.location.host
+      }/${gameID}?token=${token}`
     );
     setWebSocket(ws);
 
@@ -240,6 +244,10 @@ const Game = () => {
           </div>
           <section className="game-comp">
             <div className="chess">
+              {/* show player name here */}
+              <span>
+                {playerNames[color?(color[0] === "w" ? "b" : "w"):"b"]}
+              </span>
               <Chessboard
                 boardOrientation={color}
                 position={game.fen()}
@@ -255,6 +263,7 @@ const Game = () => {
                 }}
                 playerNames={playerNames}
               />
+              <span>{playerNames[color?color[0]:"w"]}</span>
             </div>
             <Chat2
               chat={chat}

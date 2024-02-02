@@ -763,11 +763,15 @@ Game Page
 }
 
 .chess {
-    margin: 3rem auto;
-    margin-bottom: 0;
+    margin: 0.5rem auto;
+    padding: 0rem 0;
     max-width: 600px;
     width: 70vw;
+    background-color: #000;
     grid-area: chess;
+}
+.chess span {
+    padding: 0 0.5rem;
 }
 
 .chatbox {
