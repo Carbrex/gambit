@@ -49,6 +49,10 @@ const Game = () => {
     setGame,
     history,
     setHistory,
+    showPromotionModal,
+    setShowPromotionModal,
+    setPromotionFromTo,
+    setPromotionPiece,
   } = useContext(GameContext);
 
   // Define styles for the chessboard
@@ -245,8 +249,62 @@ const Game = () => {
           <section className="game-comp">
             <div className="chess">
               {/* show player name here */}
+              <div
+                className="hide-modal"
+                style={{ display: showPromotionModal ? "block" : "none" }}
+              ></div>
+              <div
+                className="promotion-modal"
+                style={{ display: showPromotionModal ? "block" : "none" }}
+              >
+                <div className="modal-content">
+                  <button
+                    className="close-promotion-modal btn"
+                    onClick={() => {
+                      setShowPromotionModal(false);
+                      setPromotionFromTo(null);
+                      setPromotionPiece(null);
+                    }}
+                  >
+                    &times;
+                  </button>
+                  <p>Choose promotion piece</p>
+                  <button
+                    className="btn promotion-piece"
+                    onClick={() => {
+                      setPromotionPiece("q");
+                    }}
+                  >
+                    Queen
+                  </button>
+                  <button
+                    className="btn promotion-piece"
+                    onClick={() => {
+                      setPromotionPiece("r");
+                    }}
+                  >
+                    Rook
+                  </button>
+                  <button
+                    className="btn promotion-piece"
+                    onClick={() => {
+                      setPromotionPiece("b");
+                    }}
+                  >
+                    Bishop
+                  </button>
+                  <button
+                    className="btn promotion-piece"
+                    onClick={() => {
+                      setPromotionPiece("n");
+                    }}
+                  >
+                    Knight
+                  </button>
+                </div>
+              </div>
               <span>
-                {playerNames[color?(color[0] === "w" ? "b" : "w"):"b"]}
+                {playerNames[color ? (color[0] === "w" ? "b" : "w") : "b"]}
               </span>
               <Chessboard
                 boardOrientation={color}
@@ -263,7 +321,7 @@ const Game = () => {
                 }}
                 playerNames={playerNames}
               />
-              <span>{playerNames[color?color[0]:"w"]}</span>
+              <span>{playerNames[color ? color[0] : "w"]}</span>
             </div>
             <Chat2
               chat={chat}
@@ -274,6 +332,7 @@ const Game = () => {
                 !game.isGameOver() &&
                 (game.turn() === "w" ? "white" : "black") === color
               }
+              isSpec={!color}
             />
           </section>
         </>

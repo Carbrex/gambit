@@ -1,10 +1,14 @@
 import React from "react";
 
-const Chat = ({ chat, msg, setMsg, handleSubmit, showTurn }) => {
+const Chat = ({ chat, msg, setMsg, handleSubmit, showTurn, isSpec }) => {
   return (
     <footer>
       <div className="message-container">
-        <h4>{showTurn?'Its your turn to play':'Waiting for opponent...'}</h4>
+        {!isSpec && (
+          <h4>
+            {showTurn ? "Its your turn to play" : "Waiting for opponent..."}
+          </h4>
+        )}
         <div className="messages">
           <h4>Chat:</h4>
           <div className="chat-box">
