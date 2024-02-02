@@ -191,7 +191,7 @@ const Game = () => {
         st = "The game is drawn by insufficient material!";
       }
       if (game.isDraw()) {
-        st = "The game is drawn.";
+        st = "The game is drawn!";
       }
       setStatus(st);
       toast.info(st, {
