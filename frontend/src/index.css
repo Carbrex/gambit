@@ -635,6 +635,7 @@ Error
 
 
 .chess-tv {
+    margin-top: 2rem;
     display: grid;
     gap: 2rem;
     text-align: center;
