@@ -16,7 +16,7 @@ const WS_URL = `${
 let ws;
 
 const Game = () => {
-  const clientSet= useRef(false);
+  const clientSet = useRef(false);
   const [messages, setMessages] = useState(null);
   const { id: gameID } = useParams();
   const location = useLocation();
@@ -132,7 +132,6 @@ const Game = () => {
           if (message.gameStatus === "ongoing") {
             setGameReady(true);
             console.log("someone joined");
-            let players = {};
             const arr = [...message.players];
             arr.forEach((element) => {
               let color;
@@ -140,6 +139,15 @@ const Game = () => {
               else if (element.color === "black") color = "b";
               players[color] = element.playerName;
             });
+          }
+          let players = {};
+          if (message.players?.length === 2) {
+            for (let i = 0; i < 2; i++) {
+              let color;
+              if (message.players[i].color === "white") color = "w";
+              else if (message.players[i].color === "black") color = "b";
+              players[color] = message.players[i].playerName;
+            }
             setPlayerNames(players);
           }
           break;
@@ -250,8 +258,7 @@ const Game = () => {
             <div className="chess">
               {/* show player name here */}
               <span>
-                {console.log(playerNames)}
-                {playerNames[color?(color[0] === "w" ? "b" : "w"):"b"]}
+                {playerNames[color ? (color[0] === "w" ? "b" : "w") : "b"]}
               </span>
               <Chessboard
                 boardOrientation={color}
@@ -268,7 +275,7 @@ const Game = () => {
                 }}
                 playerNames={playerNames}
               />
-              <span>{playerNames[color?color[0]:"w"]}</span>
+              <span>{playerNames[color ? color[0] : "w"]}</span>
             </div>
             <Chat2
               chat={chat}

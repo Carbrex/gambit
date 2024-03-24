@@ -5,7 +5,6 @@ let botId;
 async function getBotId() {
     if (!botId) {
         const bot = await User.findOne({ email: 'bot@bot.com' });
-        console.log('Bot:', bot);
         if (bot) {
             botId = bot._id;
         }
@@ -15,7 +14,6 @@ async function getBotId() {
             botId = bot._id;
         }
     }
-    console.log('Bot ID:', botId);
     return botId;
 }
 

@@ -26,7 +26,6 @@ async function getBestMove(fen, depth) {
 
 const isBotGame = async (game) => {
   const botId = await getBotId();
-  console.log("Bot ID:", botId);
   for (let player of game.players) {
     if (player.playerID === botId) {
       return true;

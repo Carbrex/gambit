@@ -34,7 +34,6 @@ initializeChess();
 
 async function playBotMoveHelper(currGame, connections) {
   try {
-    console.log("playBotMoveHelper", currGame);
     if (isBotGame(currGame)) {
       // check if it is bot's turn
       let chess = new Chess(currGame.gameStatefen);
@@ -47,18 +46,10 @@ async function playBotMoveHelper(currGame, connections) {
           break;
         }
       }
-      console.log(
-        "Bot Color:",
-        botColor,
-        chess.turn(),
-        botColor.slice(0, 1).toLowerCase()
-      );
       if (chess.turn() === botColor.slice(0, 1).toLowerCase()) {
         // make bot move
-        console.log("Bot's Turn");
         const move = await playBotMove(currGame);
         chess.move(move);
-        console.log("Bot Move:", move);
         if (chess.isGameOver()) {
           currGame.status = "ended";
         }
@@ -172,7 +163,6 @@ wss.on("connection", async (ws, req) => {
                 ws.close();
               }
               const connections = games.get(gameID);
-              console.log("joined", currGame);
               connections.forEach((client) => {
                 if (client.readyState === WebSocket.OPEN) {
                   client.send(

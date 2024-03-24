@@ -12,7 +12,6 @@ async function initializeChess() {
 initializeChess();
 
 const createGame = async (req, res) => {
-  console.log(req.body);
   let { color, playWith } = req.body;
   const gameState = new Chess();
   let game;
@@ -22,7 +21,6 @@ const createGame = async (req, res) => {
   let botPlayer;
   if (playWith === "computer") {
     botId = await getBotId();
-    console.log("Bot ID:", botId);
     botPlayer = { playerID: botId, playerName: "BOT" };
   }
   if (color) {
