@@ -14,6 +14,7 @@ function generatePassword() {
         password += numbers[Math.floor(Math.random() * numbers.length)];
         password += symbols[Math.floor(Math.random() * symbols.length)];
     }
+    return password;
 }
 
 async function getBotId() {
