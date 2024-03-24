@@ -34,7 +34,8 @@ initializeChess();
 
 async function playBotMoveHelper(currGame, connections) {
   try {
-    if (isBotGame(currGame)) {
+    let gameIncludingBot = await isBotGame(currGame);
+    if (gameIncludingBot) {
       // check if it is bot's turn
       let chess = new Chess(currGame.gameStatefen);
       // get bot color
@@ -45,6 +46,9 @@ async function playBotMoveHelper(currGame, connections) {
           botColor = player.color;
           break;
         }
+      }
+      if (!botColor) {
+        return;// This should never happen
       }
       if (chess.turn() === botColor.slice(0, 1).toLowerCase()) {
         // make bot move

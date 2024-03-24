@@ -137,7 +137,6 @@ const Game = () => {
               let color;
               if (element.color === "white") color = "w";
               else if (element.color === "black") color = "b";
-              players[color] = element.playerName;
             });
           }
           let players = {};
