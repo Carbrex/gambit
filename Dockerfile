@@ -1,12 +1,28 @@
-FROM node:18.3.0
+# Use debian:buster as the base image
+FROM debian:buster
+
+# Install curl, gnupg, lsb-release, and build-essential for adding the NodeSource repository and building stockfish from source
+RUN apt-get update && apt-get install -y curl gnupg lsb-release build-essential
+
+# Add the NodeSource repository and install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+
+# Install pnpm
+RUN npm i -g pnpm
 
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install Stockfish
-RUN apt update && apt install -y stockfish && apt clean && apt autoclean && apt autoremove -y
+# Install stockfish from source
+RUN curl -sL https://github.com/official-stockfish/Stockfish/archive/refs/tags/sf_14.tar.gz | tar xz
+WORKDIR /usr/src/app/Stockfish-sf_14/src
+RUN make help
+RUN make net
+RUN make build ARCH=x86-64-modern
+RUN mv stockfish /usr/local/bin
 
-RUN npm i -g pnpm
+WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY backend/package.json backend/pnpm-lock.yaml ./backend/
