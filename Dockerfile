@@ -1,14 +1,17 @@
-FROM node:18.3.0-alpine3.15
+FROM node:18.3.0
 
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install stockfish
-RUN apk add --no-cache stockfish
+# Install Stockfish
+RUN apt update && apt install -y stockfish && apt clean && apt autoclean && apt autoremove -y
+
 RUN npm i -g pnpm
 
 # Install app dependencies
-COPY package*.json ./
+COPY backend/package.json backend/pnpm-lock.yaml ./backend/
+COPY frontend/package.json frontend/pnpm-lock.yaml ./frontend/
+COPY pnpm-workspace.yaml ./
 
 RUN pnpm install
 
@@ -24,4 +27,3 @@ WORKDIR /usr/src/app/backend
 EXPOSE 5000
 
 CMD [ "pnpm", "start" ]
-

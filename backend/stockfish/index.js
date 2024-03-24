@@ -15,7 +15,7 @@ async function initializeEngine() {
   engine = new uci.Engine("stockfish");
   await engine.init();
   await engine.isready();
-  await engine.setoption("MultiPV", "1");// MultiPV: Number of variations to display
+  await engine.setoption("MultiPV", "1"); // MultiPV: Number of variations to display
 }
 
 async function getBestMove(fen, depth) {
@@ -27,7 +27,7 @@ async function getBestMove(fen, depth) {
 const isBotGame = async (game) => {
   const botId = await getBotId();
   for (let player of game.players) {
-    if (player.playerID === botId) {
+    if (player.playerID == botId) {
       return true;
     }
   }
