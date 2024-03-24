@@ -19,12 +19,12 @@ function generatePassword() {
 
 async function getBotId() {
     if (!botId) {
-        const bot = await User.findOne({ email: 'bot@bot.com' });
+        let bot = await User.findOne({ email: 'bot@bot.com' });
         if (bot) {
             botId = bot._id;
         }
         else {
-            pwd = generatePassword();
+            const pwd = generatePassword();
             bot = await User.create({ name: 'BOT', email: 'bot@bot.com', password: pwd });
             botId = bot._id;
         }
