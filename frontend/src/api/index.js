@@ -35,14 +35,14 @@ const logout = async () => {
   window.location.reload(false);
 };
 
-const createGame = async (token, color) => {
+const createGame = async (token, playWith, color) => {
   const response = await fetch(`${URL}/game`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ color }),
+    body: JSON.stringify({ color, playWith }),
   });
   if(response.status===401) {
     logout();

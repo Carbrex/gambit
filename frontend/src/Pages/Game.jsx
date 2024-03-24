@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Chessboard } from "react-chessboard";
 import { useParams } from "react-router-dom";
 import { useHistory, useLocation } from "react-router-dom";
@@ -14,9 +14,9 @@ const WS_URL = `${
 }`;
 
 let ws;
-let clientSet = false;
 
 const Game = () => {
+  const clientSet= useRef(false);
   const [messages, setMessages] = useState(null);
   const { id: gameID } = useParams();
   const location = useLocation();
@@ -81,10 +81,12 @@ const Game = () => {
   };
 
   useEffect(() => {
-    if (socketStatus == "closing" && !clientSet && gameUpdated) {
+    console.log("socket status", socketStatus, clientSet.current, gameUpdated);
+    if (socketStatus == "closing" && !clientSet.current && gameUpdated) {
       const token = localStorage.getItem("token");
       connectSocket(token);
-      clientSet = true;
+      console.log("setting client");
+      clientSet.current = true;
       setSocketStatus("opening");
     }
   }, [socketStatus, gameUpdated]);
@@ -100,6 +102,7 @@ const Game = () => {
     ws.addEventListener("open", function (m) {
       console.log("WebSocket connection established.");
       toast.success("Connection Successful");
+      console.log("sending message");
     });
 
     ws.onmessage = function (e) {
@@ -150,6 +153,7 @@ const Game = () => {
     ws.onclose = function (e) {
       setTimeout(() => {
         setSocketStatus("closing");
+        clientSet.current = false;
       }, 10);
     };
 
@@ -246,6 +250,7 @@ const Game = () => {
             <div className="chess">
               {/* show player name here */}
               <span>
+                {console.log(playerNames)}
                 {playerNames[color?(color[0] === "w" ? "b" : "w"):"b"]}
               </span>
               <Chessboard

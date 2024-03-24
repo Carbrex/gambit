@@ -6,14 +6,13 @@ import { createGame } from "../api";
 const Play = () => {
   const [gameID, setGameID] = useState(null);
   const [playWith, setPlayWith] = useState("computer");
-  const location = useLocation();
   const history = useHistory();
   const getGameID = async (color) => {
     const token = localStorage.getItem("token");
     if (color !== "white" && color !== "black") {
       color = null;
     }
-    const response = await createGame(token, color);
+    const response = await createGame(token, playWith, color);
     if (response.ok) {
       const resjson = await response.json();
       const { status, gameID: id } = resjson;
