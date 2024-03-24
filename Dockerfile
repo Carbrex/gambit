@@ -21,7 +21,7 @@ RUN pnpm run build
 
 WORKDIR /usr/src/app/backend
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD [ "pnpm", "start" ]
 
