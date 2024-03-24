@@ -1,61 +1,90 @@
-import React, { useState, useEffect } from 'react'
-import { Chessboard } from 'react-chessboard';
-import { useHistory, useLocation } from 'react-router-dom';
-import { createGame } from '../api';
+import React, { useState, useEffect } from "react";
+import { Chessboard } from "react-chessboard";
+import { useHistory, useLocation } from "react-router-dom";
+import { createGame } from "../api";
 
 const Play = () => {
-    const [gameID, setGameID] = useState(null);
-    const location = useLocation();
-    const history = useHistory();
-    const getGameID = async (color) => {
-        const token = localStorage.getItem('token');
-        if (color !== 'white' && color !== 'black') {
-            color = null;
-        }
-        const response = await createGame(token,color);
-        if (response.ok) {
-            const resjson = await response.json();
-            const { status, gameID: id } = resjson;
-            setGameID(id);
-        }
+  const [gameID, setGameID] = useState(null);
+  const [playWith, setPlayWith] = useState("computer");
+  const history = useHistory();
+  const getGameID = async (color) => {
+    const token = localStorage.getItem("token");
+    if (color !== "white" && color !== "black") {
+      color = null;
     }
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            history.replace('/login');
-        }
-    }, [])
-    useEffect(() => {
-        if (gameID) {
-            history.push(`/play/${gameID}`);
-        }
-    }, [gameID, history]);
+    const response = await createGame(token, playWith, color);
+    if (response.ok) {
+      const resjson = await response.json();
+      const { status, gameID: id } = resjson;
+      setGameID(id);
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      history.replace("/login");
+    }
+  }, []);
+  useEffect(() => {
+    if (gameID) {
+      history.push(`/play/${gameID}`);
+    }
+  }, [gameID, history]);
 
-    return (<>
-        <section className="modes-container">
-            <div className='chessboard'>
-                <Chessboard
-                    arePiecesDraggable={false}
-                />
-            </div>
-            <header>
-                <h2 id='modes-heading'>Play a game</h2>
-                <h4 id='modes-heading'>Play with your friends as</h4>
-                <div className="modes-list">
-                    <button className="btn single-mode" onClick={() => { getGameID('white') }}>
-                        <h3>White</h3>
-                    </button>
-                    <button className="btn single-mode" onClick={() => { getGameID('black') }}>
-                        <h3>black</h3>
-                    </button>
-                    <button className="btn single-mode" onClick={() => { getGameID() }}>
-                        <h3>random</h3>
-                    </button>
-                </div>
-            </header>
-        </section>
+  return (
+    <>
+      <section className="modes-container">
+        <div className="chessboard">
+          <Chessboard arePiecesDraggable={false} />
+        </div>
+        <header>
+          <h3 id="modes-heading">Play a game with</h3>
+          <div className="play-with">
+            <button
+              className={`btn single-mode ${playWith === 'computer' ? 'active' : ''}`}
+              onClick={() => setPlayWith("computer")}
+              >
+              <p>Computer</p>
+            </button>
+            <button
+                className={`btn single-mode ${playWith === 'friend' ? 'active' : ''}`}
+              onClick={() => setPlayWith("friend")}
+            >
+              <p>Friend</p>
+            </button>
+          </div>
+
+          <p className="play-color">Play with {playWith} as</p>
+          <div className="modes-list">
+            <button
+              className="btn single-mode"
+              onClick={() => {
+                getGameID("white");
+              }}
+            >
+              <p>White</p>
+            </button>
+            <button
+              className="btn single-mode"
+              onClick={() => {
+                getGameID("black");
+              }}
+            >
+              <p>black</p>
+            </button>
+            <button
+              className="btn single-mode"
+              onClick={() => {
+                getGameID();
+              }}
+            >
+              <p>random</p>
+            </button>
+          </div>
+        </header>
+      </section>
     </>
-    )
-}
+  );
+};
 
-export default Play
+export default Play;
