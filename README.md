@@ -23,9 +23,16 @@ cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 ```
 Then replace the values in the `.env` files with your own values.
-4. Build the frontend using `cd frontend && npm run build`.
-5. Start the backend server: `cd ../backend && node app.js`
-6. Then navigate to http://localhost:5000/ in your browser.
+
+4. Install `stockfish` engine:
+```
+sudo apt install stockfish
+```
+Or follow the instructions on the [Stockfish website](https://stockfishchess.org/download/).
+
+5. Build the frontend using `cd frontend && npm run build`.
+6. Start the backend server: `cd ../backend && node app.js`
+7. Then navigate to http://localhost:5000/ in your browser.
 
 <!-- Alternative setup using docker -->
 ### Alternative Setup using Docker
@@ -38,6 +45,7 @@ cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 ```
 Then replace the values in the `.env` files with your own values.
+
 3. Build the Docker image: `docker build -t gambit .`
 4. Run the Docker container: `docker run -p 5000:5000 gambit`
 5. Then navigate to http://localhost:5000/ in your browser.
