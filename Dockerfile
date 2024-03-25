@@ -1,4 +1,3 @@
-# Use debian:buster as the base image
 FROM carbrex/sf-on-node-alpine
 
 WORKDIR /usr/src/app
