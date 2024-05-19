@@ -52,8 +52,8 @@ async function playBotMoveHelper(currGame, connections) {
       }
       if (chess.turn() === botColor.slice(0, 1).toLowerCase()) {
         // make bot move
-        const move = await playBotMove(currGame);
-        chess.move(move);
+        const botMove = await playBotMove(currGame);
+        const move = chess.move(botMove);
         if (chess.isGameOver()) {
           currGame.status = "ended";
         }
