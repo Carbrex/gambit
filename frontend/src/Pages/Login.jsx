@@ -27,8 +27,10 @@ function Login() {
     setValues({ ...values, [name]: value });
   };
   function validatePassword(password) {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-    return regex.test(password);
+    if (password.length < 6) {
+      return false;
+    }
+    return true;
   }
   const handleRegister = async () => {
     const { name, email, password, isMember } = values;
@@ -40,7 +42,7 @@ function Login() {
       return;
     }
     if (!validatePassword(password)) {
-      toast.error('Password should have atleast 8 characters and consist of atleast one character, one number and a special character');
+      toast.error('Password should have atleast 6 characters');
       return;
     }
     return await register(name, email, password);
